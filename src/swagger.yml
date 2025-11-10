@@ -1,12 +1,12 @@
 # Initialement fait par William
 # Modifications mineures par  Alain
-#    changer le servers:url pour alaindube.com
+#    changer le servers:url pour alaindube.com yan>y
 openapi: 3.0.0
 info:
-  title: Pirates API
+  title: YanyAPI
   version: 1.0.0
 servers:
-  - url: https://alaindube.com/api
+  - url: https://p.y-any.org:2223/api
 
 paths:
   /ping:

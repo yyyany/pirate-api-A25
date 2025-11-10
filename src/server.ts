@@ -29,8 +29,8 @@ const port = process.env.PORT || 3001;
 
 //Chemins vers les certificats SSL générés par Certbot
 const sslOptions = {
-  key: fs.readFileSync('/etc/letsencrypt/live/alaindube.com/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/alaindube.com/fullchain.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/p.y-any.org/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/p.y-any.org/fullchain.pem'),
 };
 
 
@@ -63,8 +63,10 @@ app.get('/hello', (req, res) => {
 });
 
 app.get("/api/ping", (req, res) => {
-  res.status(200).send('pong')
+  console.log("Ping route hit");   // log pour vérifier que la route est atteinte
+  res.status(200).send('pong');
 })
+
 
 app.use("/api/auth", authLookup, authRouter());
 app.use("/api/ships", shipRouter());
@@ -87,7 +89,7 @@ process.on('unhandledRejection', (reason, promise) => {
 
 
 
-// Démarrer le serveur HTTPS
+// Démarrer le serveur HTTPS p
 https.createServer(sslOptions, app).listen(port, () => {
   console.log(`Listening on port ${port}`);
   console.log("Ping    on ./api/ping");
