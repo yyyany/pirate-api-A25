@@ -6,6 +6,20 @@ import { AppError } from "../errors/AppError";
 
 export class ShipRepository {
 
+  // La partie pour mettre à jour le crew du navire
+  async updateCrewById(id: string, crewSize: number): Promise<Ship> {
+    await db.update(ships)
+      .set({ crewSize: crewSize })
+      .where(eq(ships.id, id));
+
+    const result = await this.findById(id);
+    
+    if (!result) {
+        throw new AppError("Failed to update crew, ship likely doesn't exist.", { statusCode: 500, isOperational: false });
+    }
+    return result;
+  }
+
     // La partie pour mettre à jour l'or du navire
   async updateGoldById(id: string, goldCargo: number): Promise<Ship> {
     

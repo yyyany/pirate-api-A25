@@ -7,14 +7,21 @@ const shipService = new ShipService();
 
 export class ShipController {
 
+  updateCrew = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { amount } = req.body;
+
+      const ship = await shipService.updateCrew(req.params.id, amount);
+      res.status(200).json(ship);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   // Modifier Gold 
   updateGold = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { amount } = req.body;
-      
-      if (amount === undefined || typeof amount !== 'number') {
-         throw new AppError("Invalid amount", { statusCode: 400, code: "VALIDATION_ERROR", details: "Amount must be a number." });
-      }
 
       const ship = await shipService.updateGold(req.params.id, amount);
       res.status(200).json(ship);

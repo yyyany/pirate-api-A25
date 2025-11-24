@@ -35,7 +35,12 @@ export interface PatchShipRequest {
   crewSize: number;
 }
 
+// partie ajouter par moi 
 export interface UpdateGoldRequest {
+  amount: number;
+}
+
+export interface UpdateCrewRequest {
   amount: number;
 }
 
