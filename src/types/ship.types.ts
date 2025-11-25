@@ -8,6 +8,7 @@ export interface Ship {
   createdBy: string;
   createdAt: Date;
   updatedAt: Date;
+  // partie ajouter par moi
   pillagedCount: number;
 }
 

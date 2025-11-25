@@ -7,11 +7,13 @@ const shipService = new ShipService();
 
 export class ShipController {
 
-    transferGold = async (req: Request, res: Response, next: NextFunction) => {
+  transferGold = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const transferData: TransferGoldRequest = req.body;
 
-      if (!transferData.fromShipId || !transferData.toShipId || transferData.amount === undefined) {
+      if (
+        transferData.fromShipId == null ||transferData.toShipId == null || transferData.amount == null
+      ) {
         throw new AppError("Paramètres manquants", { statusCode: 400 });
       }
 
@@ -22,10 +24,10 @@ export class ShipController {
       next(error);
     }
   }
-
+  // Modifier Crew 
   updateCrew = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { amount } = req.body;
+      const amount = req.body.amount;
 
       const ship = await shipService.updateCrew(req.params.id, amount);
       res.status(200).json(ship);
@@ -37,7 +39,7 @@ export class ShipController {
   // Modifier Gold 
   updateGold = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { amount } = req.body;
+      const amount = req.body.amount;
 
       const ship = await shipService.updateGold(req.params.id, amount);
       res.status(200).json(ship);

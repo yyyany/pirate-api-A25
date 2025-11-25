@@ -12,18 +12,15 @@ import * as axios from "axios";
 
 const shipRepository = new ShipRepository();
 
-//
+// Map pour suivre les transferts actifs
 const activeTransfers = new Map<string, boolean>();
 
 export class ShipService {
 
-
+  // Transférer de l'or entre deux navires
+  // IA ma grandement aidé pour cette fonction
   async transferGold(data: TransferGoldRequest): Promise<void> {
   const { fromShipId, toShipId, amount } = data;
-
-  // Vérifications de base
-  if (amount <= 0) throw new AppError("Le montant doit être positif", { statusCode: 400 });
-  if (fromShipId === toShipId) throw new AppError("Même navire", { statusCode: 400 });
 
   // Vérifier si l'un des navires est déjà utilisé
   if (activeTransfers.has(fromShipId) || activeTransfers.has(toShipId)) {
@@ -53,7 +50,7 @@ export class ShipService {
 
     await new Promise((resolve) => setTimeout(resolve, 8000));
 
-    // 3. VÉRIFICATION POST-PAUSE : est-ce qu'on a été marqué comme.
+    // 3. VÉRIFICATION POST-PAUSE : est-ce qu'on a été marqué comme DEGAT si C > A || B alors A || B deviennt false donc on met pas la db a jour.
     const statusFrom = activeTransfers.get(fromShipId);
     const statusTo = activeTransfers.get(toShipId);
 
@@ -63,8 +60,12 @@ export class ShipService {
     }
 
     // 4. Tout est OK, on applique les changements
-    await shipRepository.updateGoldById(fromShipId, sourceShip.goldCargo - amount);
-    await shipRepository.updateGoldById(toShipId, destShip.goldCargo + amount);
+    const newGoldSource = validateAndCalculateNewGold(sourceShip.goldCargo, -amount);
+    const newGoldDest = validateAndCalculateNewGold(destShip.goldCargo, amount);
+
+    await shipRepository.updateGoldById(fromShipId, newGoldSource);
+    await shipRepository.updateGoldById(toShipId, newGoldDest);
+
     await shipRepository.incrementPillagedCount(fromShipId, (sourceShip.pillagedCount || 0) + 1);
 
     console.log("Transfert réussi.");

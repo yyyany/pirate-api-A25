@@ -6,17 +6,12 @@ import { AppError } from "../errors/AppError";
 
 export class ShipRepository {
 
-  async useTransaction(callback: (tx: any) => Promise<void>): Promise<void> {
-    await db.transaction(callback);
-  }
-
+  // La partie pour incrementer le pillagedCount du navire
   async incrementPillagedCount(id: string, newCount: number): Promise<void> {
   await db.update(ships)
     .set({ pillagedCount: newCount })
     .where(eq(ships.id, id));
 }
-
-
 
   // La partie pour mettre à jour le crew du navire
   async updateCrewById(id: string, crewSize: number): Promise<Ship> {
