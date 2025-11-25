@@ -1,11 +1,27 @@
 import { Request, Response, NextFunction } from 'express';
 import { ShipService } from "../services/ship.service";
-import { CreateShipRequest, ReceiveShipRequest } from "../types/ship.types";
+import { CreateShipRequest, ReceiveShipRequest, TransferGoldRequest } from "../types/ship.types";
 import { AppError } from "../errors/AppError";
 
 const shipService = new ShipService();
 
 export class ShipController {
+
+    transferGold = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const transferData: TransferGoldRequest = req.body;
+
+      if (!transferData.fromShipId || !transferData.toShipId || transferData.amount === undefined) {
+        throw new AppError("Paramètres manquants", { statusCode: 400 });
+      }
+
+      await shipService.transferGold(transferData);
+
+      res.status(200).json({ message: "Transfert effectué avec succès" });
+    } catch (error) {
+      next(error);
+    }
+  }
 
   updateCrew = async (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -44,6 +44,12 @@ export interface UpdateCrewRequest {
   amount: number;
 }
 
+export interface TransferGoldRequest {
+  fromShipId: string;
+  toShipId: string;
+  amount: number;
+}
+
 export interface CreateNewShipDBRequest {
   id: string;
   name: string;

@@ -12,6 +12,7 @@ export const shipRouter = (): Router => {
   router.patch("/:id", authenticateAdmin, shipController.patchShip);
   router.patch("/:id/cargo/gold", authenticate, shipController.updateGold);
   router.patch("/:id/crew", authenticate, shipController.updateCrew);
+  router.post("/transfer", authenticate, shipController.transferGold);
   router.delete("/:id", authenticateAdmin, shipController.deleteShip);
   router.delete("/", authenticateAdmin, shipController.deleteAllShips);
   router.get("/send/userlist", authenticate, shipController.listBrokerUsers);
