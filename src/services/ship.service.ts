@@ -68,6 +68,10 @@ export class ShipService {
         await shipRepository.updateGoldTx(fromShipId, sourceShip.goldCargo - amount, tx);
         await shipRepository.updateGoldTx(toShipId, destShip.goldCargo + amount, tx);
 
+
+        const newPillagedCount = (sourceShip.pillagedCount || 0) + 1;
+        await shipRepository.incrementPillagedCountTx(fromShipId, newPillagedCount, tx);
+
         console.log("Transfert réussi.");
       });
 

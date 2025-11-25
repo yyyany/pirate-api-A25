@@ -10,6 +10,12 @@ export class ShipRepository {
     await db.transaction(callback);
   }
 
+  async incrementPillagedCountTx(id: string, newCount: number, tx: any): Promise<void> {
+    await tx.update(ships)
+      .set({ pillagedCount: newCount })
+      .where(eq(ships.id, id));
+  }
+  
   // 2. Récupérer un navire en le VERROUILLANT (SELECT ... FOR UPDATE)
   // On force l'utilisation de 'tx' ici car cela doit se faire dans une transaction
   async getShipForUpdate(id: string, tx: any): Promise<Ship | null> {
