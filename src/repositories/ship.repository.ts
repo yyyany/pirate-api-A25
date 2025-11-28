@@ -6,15 +6,34 @@ import { AppError } from "../errors/AppError";
 
 export class ShipRepository {
 
+  // 1. Lance une transaction et passe l'objet 'tx' au callback
   async useTransaction(callback: (tx: any) => Promise<void>): Promise<void> {
     await db.transaction(callback);
   }
 
-  async incrementPillagedCount(id: string, newCount: number): Promise<void> {
-  await db.update(ships)
-    .set({ pillagedCount: newCount })
-    .where(eq(ships.id, id));
-}
+  // 2. Récupère un navire et le VERROUILLE 
+  async getShipForUpdate(id: string, tx: any): Promise<Ship | null> {
+    const result = await tx.select()
+      .from(ships)
+      .where(eq(ships.id, id))
+      .for('update'); // Bloque la ligne jusqu'à la fin de la transaction
+
+    return result[0] || null;
+  }
+
+  // 3. Met à jour l'or dans la transaction
+  async updateGoldTx(id: string, newAmount: number, tx: any): Promise<void> {
+    await tx.update(ships)
+      .set({ goldCargo: newAmount })
+      .where(eq(ships.id, id));
+  }
+
+  // 4. Incrémente le compteur de pillage dans la transaction
+  async incrementPillagedCountTx(id: string, newCount: number, tx: any): Promise<void> {
+    await tx.update(ships)
+      .set({ pillagedCount: newCount })
+      .where(eq(ships.id, id));
+  }
 
 
 
