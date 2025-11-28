@@ -56,18 +56,9 @@ export class ShipService {
         if (collisionFrom === true || collisionTo === true) {
           throw new AppError("Transaction annulée : Interférence détectée pendant le traitement.", { statusCode: 409 });
         }
-
-        // D. CALCULS (Directement ici, plus d'utilitaire)
-        const newSourceGold = sourceShip.goldCargo - amount;
-        const newDestGold = destShip.goldCargo + amount;
-
-        // Validations des montants
-        if (newSourceGold < 0) {
-            throw new AppError(`Fonds insuffisants. Le navire n'a que ${sourceShip.goldCargo} or.`, { statusCode: 400 });
-        }
-        if (newDestGold > 1000000) {
-            throw new AppError("Le navire receveur est plein (Max 1,000,000).", { statusCode: 400 });
-        }
+        
+        const newSourceGold = validateAndCalculateNewGold(sourceShip.goldCargo, amount);
+        const newDestGold = validateAndCalculateNewGold(sourceShip.goldCargo, amount);
 
         await shipRepository.updateGoldTx(fromShipId, newSourceGold, tx);
         await shipRepository.updateGoldTx(toShipId, newDestGold, tx);
