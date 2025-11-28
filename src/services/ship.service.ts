@@ -60,7 +60,7 @@ export class ShipService {
   // ChatGPT sur comment utiliser Axios
 
   async getBrokerUsers(): Promise<Array<string>> {
-    const url = ${process.env.baseBrokerUrl ?? ""}/users;
+    const url = ${process.env.BASE_BROKER_URL ?? ""}/users;
 
     try {
       const response = await axios.get<{ success: boolean; users: string[]; totalUsers: number; }>(
@@ -110,7 +110,7 @@ export class ShipService {
       throw new AppError("Failed sending ship", { statusCode: 400, code: "VALIDATION_ERROR", isOperational: true })
     }
 
-    const url = process.env.baseBrokerUrl +  "/ship/sail/" + recipientName;
+    const url = process.env.BASE_BROKER_URL + "/ship/sail/" + recipientName;
     const data = {
       "name": ship.name,
       "goldCargo": ship.goldCargo,
