@@ -57,8 +57,7 @@ export class AuthController {
           id: user?.id,
           username: user?.username,
           createdAt: user?.createdAt,
-          updatedAt: user?.updatedAt,
-          isAdmin: user?.isAdmin
+          updatedAt: user?.updatedAt
         }
       };
 
