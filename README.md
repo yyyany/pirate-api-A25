@@ -190,3 +190,9 @@ Référence:
 
 ## L'API devrait maintenant être accessible à :
 [https://localhost:port/swagger]
+
+
+## Contributeurs / Rôles :
+Yany : Admin
+Alail : Admin  
+
