@@ -1,0 +1,16 @@
+         {
+             "rest-client.environmentVariables": {
+                 "$shared": {
+                     "apiKey": ""
+                 },
+                 "local": {
+                     "baseUrl": "https://baseUrl.com:2223/api",
+                     "token": "",
+                     "shipId": "shipId_123456",
+                     "recipient": "proffff",
+                     "clientId": "yany",
+                     "BROKER_CLIENT_SECRET": "BROKER_CLIENT_SECRET_123456",
+                     "BROKER_CLIENT_ID": "BROKER_CLIENT_ID_123456"
+                 }
+             }
+          }
