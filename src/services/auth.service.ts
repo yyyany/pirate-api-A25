@@ -18,7 +18,15 @@ export class AuthService {
   }
 
   async setAdmin(id: string): Promise<User | null> {
-    return authRepository.setAdmin(id);
+
+    const updatedUser = await authRepository.setAdmin(id);
+
+    if (!updatedUser) {
+        throw new AppError("User not found", { 
+            statusCode: 404
+        });
+    }
+    return updatedUser;
   }
 
   async createUser(user: RegisterUserRequest): Promise<User> {

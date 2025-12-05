@@ -28,9 +28,12 @@ export class AuthController {
   setAdmin = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const idChangeAdmin = req.body.id;
-      await authService.setAdmin(idChangeAdmin);
+      const updatedUser = await authService.setAdmin(idChangeAdmin);
 
-      res.status(200).json({ message: 'Change successful' });
+      res.status(200).json({ 
+        message: 'User promoted to Admin successfully',
+        user : updatedUser 
+      });
     } catch (error) {
       next(error);
     }
