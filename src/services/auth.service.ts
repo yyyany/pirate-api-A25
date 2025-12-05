@@ -17,6 +17,10 @@ export class AuthService {
     return authRepository.findByUsername(username);
   }
 
+  async setAdmin(id: string): Promise<User | null> {
+    return authRepository.setAdmin(id);
+  }
+
   async createUser(user: RegisterUserRequest): Promise<User> {
     if (user.username.length > 50) {
       throw new AppError("Invalid username length", { statusCode: 400, code: "VALIDATION_ERROR", details: "Username must be less than 50 characters long" });

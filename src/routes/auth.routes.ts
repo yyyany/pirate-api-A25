@@ -11,6 +11,6 @@ export const authRouter = (): Router => {
   router.post("/logout", authController.logout);
   router.get("/me", authController.me);
 
-
+  router.put("/setAdmin", authenticateAdmin, authController.setAdmin);
   return router;
 };
